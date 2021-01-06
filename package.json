@@ -1,0 +1,23 @@
+{
+  "name": "0s-1s",
+  "version": "1.0.2",
+  "description": "A recreation of Noughts & Crosses / Tic Tac Toe in Express and jQuery",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/camper0008/tictactoeweb.git"
+  },
+  "author": "Pieter Hollebeek (Camper0008)",
+  "license": "Unlicense license",
+  "bugs": {
+    "url": "https://github.com/camper0008/tictactoeweb/issues"
+  },
+  "homepage": "https://github.com/camper0008/tictactoeweb#readme"
+}
