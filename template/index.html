@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>0s and 1s</title>
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+    <h1 id="msg"></h1>
+    <pre class="game" id="board">loading</pre>
+    <br>
+    <div>
+        <t>Player #: <input id="player"></t>
+        <button id="refresh">
+            <span class="material-icons">
+                refresh
+            </span>
+        </button>
+        <button id="reset">
+            <span class="material-icons">
+                delete
+            </span>
+        </button>
+        <br><br>
+        <t id="turn">Player turn: 0</t>
+    </div>
+    <!-- load scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="../static/interact.js"></script>
+</body>
+</html>

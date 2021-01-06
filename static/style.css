@@ -1,0 +1,68 @@
+*::selection {
+	position: inherit;
+}
+* {
+	font-family: monospace;
+	cursor: default;
+}
+
+h1 {
+	font-family: inherit;
+	text-align: center;
+	font-size: 4em;
+}
+
+pre.game {
+	margin: 0px;
+	font-size: 8vh;
+	text-align: center;
+}
+
+pre.game>button {
+	border: 0px;
+	padding: 0px;
+	outline: 0px;
+	background-color: white;
+	font: inherit;
+	cursor: default;
+}
+
+pre.game>button[taken*='#'] {
+	color: rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+}
+
+div {
+	position: relative;
+	width: fit-content;
+	margin: auto;
+}
+
+t {
+	margin: 0px;
+	font-family: inherit;
+	text-align: center;
+	font-size: 2vh;
+}
+
+t>input {
+	font: inherit;
+	width: 5vw;
+	cursor: auto;
+}
+
+t>input::selection {
+	background-color: black;
+	color: white;
+}
+
+button {
+	padding: 0px;
+	border: 0px;
+	vertical-align: bottom;
+	background-color: white;
+}
+
+button > * {
+	cursor: pointer;
+}
