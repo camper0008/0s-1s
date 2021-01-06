@@ -12,12 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/camper0008/tictactoeweb.git"
+    "url": "git+https://github.com/camper0008/0s-1s.git"
   },
   "author": "Pieter Hollebeek (Camper0008)",
-  "license": "Unlicense license",
+  "license": "Unlicense",
   "bugs": {
-    "url": "https://github.com/camper0008/tictactoeweb/issues"
+    "url": "https://github.com/camper0008/0s-1s/issues"
   },
-  "homepage": "https://github.com/camper0008/tictactoeweb#readme"
+  "homepage": "https://github.com/camper0008/0s-1s#readme"
 }
