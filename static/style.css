@@ -5,6 +5,9 @@
 	font-family: monospace;
 	cursor: default;
 }
+body {
+	background-color: white;
+}
 
 h1 {
 	font-family: inherit;
@@ -22,7 +25,6 @@ pre.game>button {
 	border: 0px;
 	padding: 0px;
 	outline: 0px;
-	background-color: white;
 	font: inherit;
 	cursor: default;
 }
