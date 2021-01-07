@@ -6,12 +6,7 @@ const blankBoard = `┏━━━┳━━━┳━━━┓
 ┃ # ┃ # ┃ # ┃
 ┗━━━┻━━━┻━━━┛`
 
-document.cookie = document.cookie || `player=0; max-age=${3600*24*7};`
-
 var display = () => {
-    var player = document.cookie.match(/player=(.)/)[1] || 0
-    $('#player').val(player.toString());    
-
     $.get('/gameInfo').done((data) => {
         var newString = '';
         var current = 0;
@@ -35,8 +30,9 @@ var display = () => {
 
             $('#board button[taken*=\'#\']').each((_, obj) => {
                 $(obj).click(() => {
-                    if ($('#player').val() == data.currentPlayer) {
-                        $.get(`/?move=${$('#player').val()}${$(obj).attr('index')}`);
+                    var player = $('#player').val() == '1' ? 1 : 0
+                    if (player == data.currentPlayer) {
+                        $.get(`/?move=${player}${$(obj).attr('index')}`);
                         display();
                     }
                 })
@@ -57,7 +53,4 @@ $('#reset').click( () => {
 $('#player').blur( () => {
     $('#player').val($('#player').val().replace(/[^01]+/g, ''))
     $('#player').val($('#player').val().slice(0,1))
-    if ($('#player').val() != '') {
-        document.cookie = `player=${$('#player').val()}; max-age=${3600*24*7};`
-    }
 });
