@@ -6,6 +6,8 @@ const blankBoard = `┏━━━┳━━━┳━━━┓
 ┃ # ┃ # ┃ # ┃
 ┗━━━┻━━━┻━━━┛`
 
+document.cookie = document.cookie || `player=0; max-age=${3600*24*7};`
+
 var display = () => {
     var player = document.cookie.match(/player=(.)/)[1] || 0
     $('#player').val(player.toString());    

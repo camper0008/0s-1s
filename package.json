@@ -6,8 +6,8 @@
   "dependencies": {
     "express": "^4.17.1"
   },
-  "engines": {
-    "node":"14.x"
+  "devDependencies": {
+    "localtunnel": "^2.0.0"
   },
   "scripts": {
     "start": "node app.js",
