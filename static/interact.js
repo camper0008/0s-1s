@@ -1,17 +1,17 @@
-const blankBoard = `┏━━━┳━━━┳━━━┓
-┃ # ┃ # ┃ # ┃
-┣━━━╋━━━╋━━━┫
-┃ # ┃ # ┃ # ┃
-┣━━━╋━━━╋━━━┫
-┃ # ┃ # ┃ # ┃
-┗━━━┻━━━┻━━━┛`
+const blankBoard = `┌───┬───┬───┐
+│ # │ # │ # │
+├───┼───┼───┤
+│ # │ # │ # │
+├───┼───┼───┤
+│ # │ # │ # │
+└───┴───┴───┘`
 
-var display = () => {
+let display = () => {
     $.get('/gameInfo').done((data) => {
-        var newString = '';
-        var current = 0;
-        for (var i = 0; i < blankBoard.length; i++) {
-            var char = blankBoard.slice(i, i + 1)
+        let newString = '';
+        let current = 0;
+        for (let i = 0; i < blankBoard.length; i++) {
+            let char = blankBoard.slice(i, i + 1)
             if (char == '#') {
                 newString += `<button index='${current}' taken='${data.board[current]}'>${data.board[current]}</button>`
                 current++;
@@ -30,7 +30,7 @@ var display = () => {
 
             $('#board button[taken*=\'#\']').each((_, obj) => {
                 $(obj).click(() => {
-                    var player = $('#player').val() == '1' ? 1 : 0
+                    let player = $('#player').val() == '1' ? 1 : 0
                     if (player == data.currentPlayer) {
                         $.get(`/?move=${player}${$(obj).attr('index')}`);
                         display();

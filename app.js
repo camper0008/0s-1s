@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
-var game = {
+let game = {
     currentPlayer: 0,
     board: [
         '#','#','#',
@@ -61,4 +61,4 @@ app.get('/', function(req, res) {
 app.get('/gameInfo', (_, res) => res.json(game));
 app.use("/static", express.static('./static/'));
 
-app.listen(42069);
+app.listen(80);

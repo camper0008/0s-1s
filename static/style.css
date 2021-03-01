@@ -1,12 +1,11 @@
-*::selection {
-	position: inherit;
+::selection {
+	background-color: black;
+	color: white;
 }
+
 * {
-	font-family: monospace;
+    font-family: monospace;
 	cursor: default;
-}
-body {
-	background-color: white;
 }
 
 h1 {
@@ -19,12 +18,16 @@ pre.game {
 	margin: 0px;
 	font-size: 8vh;
 	text-align: center;
+	line-height: 1.125;
+
+	user-select: none;
 }
 
 pre.game>button {
 	border: 0px;
 	padding: 0px;
 	outline: 0px;
+	background-color: white;
 	font: inherit;
 	cursor: default;
 }
@@ -36,7 +39,7 @@ pre.game>button[taken*='#'] {
 
 div {
 	position: relative;
-	width: fit-content;
+	width: max-content;
 	margin: auto;
 }
 
@@ -51,11 +54,6 @@ t>input {
 	font: inherit;
 	width: 5vw;
 	cursor: auto;
-}
-
-t>input::selection {
-	background-color: black;
-	color: white;
 }
 
 button {
