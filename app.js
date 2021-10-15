@@ -1,16 +1,6 @@
 const express = require('express');
-const app = express();
 const path = require('path');
-
-const game = {
-    currentPlayer: 0,
-    board: [
-        '#','#','#',
-        '#','#','#',
-        '#','#','#',
-    ],
-    won: false,
-}
+const ws = require("ws");
 const winConditions = [
     //row
     [0, 1, 2],
@@ -25,17 +15,16 @@ const winConditions = [
     [2, 4, 6],
 ]
 
-const isWinner = (player) => {
+const isWinner = (game, player) => {
     return winConditions.some( (line) => {
         return line.every( (pos) => {
             return game.board[pos] === player
         });
     })
 }
-
-const makeMove = (player, pos) => {
-    if (player == game.currentPlayer && game.board[pos] == '#') {
-        game.board[pos] = game.currentPlayer.toString()
+const makeMove = (game, player, move) => {
+    if (player == game.currentPlayer && game.board[move] == '#') {
+        game.board[move] = game.currentPlayer.toString()
         game.currentPlayer++;
         game.currentPlayer%=2;
 
@@ -48,22 +37,54 @@ const makeMove = (player, pos) => {
     }
 }
 
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/template/index.html'));
-});
-app.get('/move', (req, res) => {
-    if (!game.winner)
-        makeMove(parseInt(req.query.player), parseInt(req.query.move))
-
-    return res.status(200).send("Success");
-})
-app.get('/reset', (req, res) => {
+const reset = (game) => {
     game.board = Array(9).fill('#')
     game.winner = false;
     game.currentPlayer = 0;
-})
+}
 
-app.get('/info', (_, res) => res.json(game));
-app.use("/static", express.static('./static/'));
+const parseData = (game, socket, chunk) => {
+    try {
+        const str = chunk.toString('utf-8');
+        const json = JSON.parse(str);
 
-app.listen(5000);
+        switch (json.action) {
+            case "reset":
+                reset(game);
+                break;
+            case "move":
+                makeMove(game, json.player, json.move)
+                break;
+        }
+    } catch (err) {}
+
+    return socket.send(JSON.stringify(game));
+}
+
+const main = () => {
+    const game = {
+        currentPlayer: 0,
+        board: Array(9).fill('#'),
+        won: false,
+    }    
+    
+    const app = express();
+
+    app.get('/', function(req, res) {
+        res.sendFile(path.join(__dirname + '/template/index.html'));
+    });
+    
+    app.use("/static", express.static('./static/'));
+
+    const wsServer = new ws.Server({ noServer: true });
+    wsServer.on('connection', socket => socket.on('message', chunk => parseData(game, socket, chunk)));
+    
+    const server = app.listen(5000);
+    server.on('upgrade', (request, socket, head) => {
+        wsServer.handleUpgrade(request, socket, head, socket => {
+            wsServer.emit('connection', socket, request);
+        });
+    });
+}
+
+main();
