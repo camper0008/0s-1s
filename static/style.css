@@ -32,7 +32,7 @@ pre.game>button {
 	cursor: default;
 }
 
-pre.game>button[taken*='#'] {
+pre.game>button.board_button {
 	color: rgba(0, 0, 0, 0.2);
 	cursor: pointer;
 }

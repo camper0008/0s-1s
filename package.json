@@ -11,6 +11,7 @@
   },
   "scripts": {
     "start": "node app.js",
+    "tunnel": "lt --port 5000 --subdomain 0s1s",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
-let game = {
+const game = {
     currentPlayer: 0,
     board: [
         '#','#','#',
@@ -49,16 +49,21 @@ const makeMove = (player, pos) => {
 }
 
 app.get('/', function(req, res) {
-    if (req.query.move && !game.winner) {
-        makeMove(parseInt(req.query.move.slice(0, 1)), parseInt(req.query.move.slice(1, 2)))
-    } else if (req.query.reset != null) {
-        game.board = Array(9).fill('#')
-        game.winner = false;
-        game.currentPlayer = 0;
-    }
     res.sendFile(path.join(__dirname + '/template/index.html'));
 });
-app.get('/gameInfo', (_, res) => res.json(game));
+app.get('/move', (req, res) => {
+    if (!game.winner)
+        makeMove(parseInt(req.query.player), parseInt(req.query.move))
+
+    return res.status(200).send("Success");
+})
+app.get('/reset', (req, res) => {
+    game.board = Array(9).fill('#')
+    game.winner = false;
+    game.currentPlayer = 0;
+})
+
+app.get('/info', (_, res) => res.json(game));
 app.use("/static", express.static('./static/'));
 
-app.listen(80);
+app.listen(5000);
