@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 const connect = async () => {
-    const socket = new WebSocket('ws://localhost:5000');
+    const socket = new WebSocket('wss://' + window.location.hostname);
     await new Promise((resolve) => {
         socket.addEventListener('open', () => {
             resolve();
