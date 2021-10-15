@@ -28,11 +28,11 @@ const makeMove = (game, player, move) => {
         game.currentPlayer++;
         game.currentPlayer%=2;
 
-        if (isWinner('0'))
+        if (isWinner(game, '0'))
             game.winner = "Player 0";
-        if (isWinner('1'))
+        if (isWinner(game, '1'))
             game.winner = "Player 1";
-        if (!game.winner && game.board.every((pos) => pos != '#' ))
+        if (!game.winner && game.board.every((pos) => pos !== '#' ))
             game.winner = "Nobody"
     }
 }
@@ -43,7 +43,7 @@ const reset = (game) => {
     game.currentPlayer = 0;
 }
 
-const parseData = (game, socket, chunk) => {
+const parseData = (game, sockets, chunk) => {
     try {
         const str = chunk.toString('utf-8');
         const json = JSON.parse(str);
@@ -58,14 +58,18 @@ const parseData = (game, socket, chunk) => {
         }
     } catch (err) {}
 
-    return socket.send(JSON.stringify(game));
+    for (let i = 0; i < sockets.length; ++i) {
+        sockets[i].send(JSON.stringify(game));
+    }
+
 }
 
 const main = () => {
+    const websocketConnections = [];
     const game = {
         currentPlayer: 0,
         board: Array(9).fill('#'),
-        won: false,
+        winner: false,
     }    
     
     const app = express();
@@ -77,7 +81,16 @@ const main = () => {
     app.use("/static", express.static('./static/'));
 
     const wsServer = new ws.Server({ noServer: true });
-    wsServer.on('connection', socket => socket.on('message', chunk => parseData(game, socket, chunk)));
+    wsServer.on('connection', socket => {
+        websocketConnections.push(socket);
+        socket.on('message', chunk => parseData(game, websocketConnections, chunk));
+        socket.on('close', () => {
+            const index = websocketConnections.findIndex( (v) => v == socket );
+            if (index !== -1) {
+                websocketConnections.splice(index, 1);
+            }
+        })
+    });
     
     const server = app.listen(5000);
     server.on('upgrade', (request, socket, head) => {

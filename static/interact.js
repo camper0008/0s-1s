@@ -51,6 +51,13 @@ const display = async (data, socket) => {
         }
     }
 
+    const message = document.getElementById('msg')
+    if (data.winner) {
+        message.innerText = `${data.winner} won.`
+    } else {
+        message.innerText = "";
+    }
+
     const boardElement = document.getElementById('board');
     boardElement.innerHTML = newString;
 
