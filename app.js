@@ -16,8 +16,8 @@ const winConditions = [
 ]
 
 const isWinner = (game, player) => {
-    return winConditions.some( (line) => {
-        return line.every( (pos) => {
+    return winConditions.some((line) => {
+        return line.every((pos) => {
             return game.board[pos] === player
         });
     })
@@ -26,13 +26,13 @@ const makeMove = (game, player, move) => {
     if (player == game.currentPlayer && game.board[move] == '#') {
         game.board[move] = game.currentPlayer.toString()
         game.currentPlayer++;
-        game.currentPlayer%=2;
+        game.currentPlayer %= 2;
 
         if (isWinner(game, '0'))
             game.winner = "Player 0";
         if (isWinner(game, '1'))
             game.winner = "Player 1";
-        if (!game.winner && game.board.every((pos) => pos !== '#' ))
+        if (!game.winner && game.board.every((pos) => pos !== '#'))
             game.winner = "Nobody"
     }
 }
@@ -56,7 +56,7 @@ const parseData = (game, sockets, chunk) => {
                 makeMove(game, json.player, json.move)
                 break;
         }
-    } catch (err) {}
+    } catch (err) { }
 
     for (let i = 0; i < sockets.length; ++i) {
         sockets[i].send(JSON.stringify(game));
@@ -70,28 +70,24 @@ const main = () => {
         currentPlayer: 0,
         board: Array(9).fill('#'),
         winner: false,
-    }    
-    
+    }
+
     const app = express();
 
-    app.get('/', function(req, res) {
-        res.sendFile(path.join(__dirname + '/template/index.html'));
-    });
-    
-    app.use("/static", express.static('./static/'));
+    app.use("/", express.static('./public/'));
 
     const wsServer = new ws.Server({ noServer: true });
     wsServer.on('connection', socket => {
         websocketConnections.push(socket);
         socket.on('message', chunk => parseData(game, websocketConnections, chunk));
         socket.on('close', () => {
-            const index = websocketConnections.findIndex( (v) => v == socket );
+            const index = websocketConnections.findIndex((v) => v == socket);
             if (index !== -1) {
                 websocketConnections.splice(index, 1);
             }
         })
     });
-    
+
     const server = app.listen(5000);
     server.on('upgrade', (request, socket, head) => {
         wsServer.handleUpgrade(request, socket, head, socket => {
