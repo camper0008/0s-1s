@@ -1,9 +1,14 @@
 const connect = async () => {
-    const socket = new WebSocket('wss://' + window.location.hostname);
+    let scheme = "ws"
+    if (window.location.protocol == "https:")
+        scheme = "wss"
+    const socket = new WebSocket(scheme + '://' + window.location.host);
     await new Promise((resolve) => {
         socket.addEventListener('open', () => {
             resolve();
-            socket.send('');
+            socket.send(JSON.stringify({
+                action: "connected",
+            }));
         });
     })
     socket.addEventListener('message', e => {
