@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 const connect = async () => {
     const socket = new WebSocket('wss://' + window.location.hostname);
     await new Promise((resolve) => {
@@ -32,16 +30,17 @@ const connect = async () => {
 }
 
 const display = async (data, socket) => {
-    const blankBoard = '┌───┬───┬───┐' + '\n'
-    + '│ @ │ @ │ @ │' + '\n'
-    + '├───┼───┼───┤' + '\n'
-    + '│ @ │ @ │ @ │' + '\n'
-    + '├───┼───┼───┤' + '\n'
-    + '│ @ │ @ │ @ │' + '\n'
-    + '└───┴───┴───┘' + '\n'
-    
+    const blankBoard = ''
+        + '┌───┬───┬───┐' + '\n'
+        + '│ @ │ @ │ @ │' + '\n'
+        + '├───┼───┼───┤' + '\n'
+        + '│ @ │ @ │ @ │' + '\n'
+        + '├───┼───┼───┤' + '\n'
+        + '│ @ │ @ │ @ │' + '\n'
+        + '└───┴───┴───┘' + '\n'
+
     let newString = blankBoard;
-    
+
     const board = data.board;
     for (i = 0; i < board.length; ++i) {
         if (board[i] === '#') {
@@ -85,12 +84,12 @@ const main = async () => {
 
     const playerInput = document.getElementById('player');
     playerInput.addEventListener('blur', async () => {
-        playerInput.value = (playerInput.value.replace(/[^01]+/g, '') + '0').slice(0,1);
+        playerInput.value = (playerInput.value.replace(/[^01]+/g, '') + '0').slice(0, 1);
     })
 
     const resetButton = document.getElementById('reset');
     resetButton.addEventListener('click', async () => {
-        socket.send(JSON.stringify({action: "reset"}))
+        socket.send(JSON.stringify({ action: "reset" }))
     })
 }
 
